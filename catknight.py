@@ -348,12 +348,28 @@ class Catknight(MininetTopo):
         printlog("\n")
         self.flow_entries = self.flow_entries + resp
         logf.flush()
+    
+    def cmd(self, node, command):
+        print(self.switches[node]['host1'])
+        self.switches[node]['host1'].cmdPrint(command) 
+
+    def pingAll(self):
+        print('pingAll')
+        self.net.pingAll()
+
+    def ping(self, n1, n2):
+        h1 = self.switches[n1]['host1']
+        h2 = self.switches[n2]['host1']
+        print('ping')
+        print(h1, h2)
+        self.net.ping([h1, h2])
+        
 
 
     def addLanRoute(self):
         fe = []
         node = 'a'
-        printlog(f"IP {self.switches[node]['host1'].IP()} {self.switches[node]['host2'].IP()}")
+        (f"IP {self.switches[node]['host1'].IP()} {self.switches[node]['host2'].IP()}")
         fe.append({
             'sw' : self.switches[node]['id'],
             'priority' : self.switches[node]['priority'],
@@ -443,9 +459,6 @@ class Catknight(MininetTopo):
 
     def delete(self):
         self.net.stop()
-
-
-
 
     def __del__(self):
         if self.net != None:
